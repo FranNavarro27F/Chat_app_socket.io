@@ -31,6 +31,9 @@ Swal.fire({
 }).then((result) => {
     // Una vez que el usuario ungresa un nombre, lo asignamos a la variable user.
     user= result.value;
+    
+//añadido en clase, no testeado
+    socket.emit("new-user", user)
 });
 
 // Obtenemos una referencia al elemento con id chat-box

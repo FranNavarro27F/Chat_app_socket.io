@@ -3,7 +3,9 @@ import handlebars from 'express-handlebars';
 import { __dirname } from './utils.js';
 import viewsRouter from './routes/views.router.js';
 import { Server } from 'socket.io';
+import * as dotenv from 'dotenv';
 
+dotenv.config()
 
 const app= express();
 
@@ -16,8 +18,8 @@ app.use(express.static(__dirname + "/../public"))
 app.use('/views', viewsRouter);
 
 
-const httpServer= app.listen(8080, () => {
-    console.log('Listen on PORT 8080');
+const httpServer= app.listen(process.env.PORT, () => {
+    console.log(`Listen on PORT ${process.env.PORT}`);
 });
  
 const io= new Server(httpServer);
@@ -38,4 +40,10 @@ io.on("connection", (soket) => {
         // Emitimos un nuevo evento de tipo 'message-logs' con los mensajes actualizados.
         io.emit("message-logs", messages);
     });
+});
+
+Socket.on("new-user", (username) => {
+    Socket.emit("messages", messages);
+
+    soket.broadcast.emit("new-user", username)
 });
